@@ -68,7 +68,8 @@ app.post(/^(.+)$/, function(req, res){
     switch(req.params[0]) {
         case '/location':
             //res.send(JSON.stringify(aceleracion));
-            console.log(req.body.location);
+            console.log(req.body.longitude);
+            res.end(); 
             break;
     default: //res.sendFile( __dirname + req.params[0]); 
     }
