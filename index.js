@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({
 
 wss.on('connection', function(ws) {
     ws.on('message', function(message) {
-    location = JSON.parse(message);
-    wss.broadcast(JSON.stringify(location));
-    console.log(JSON.stringify(location));
+    //location = JSON.parse(message);
+    //wss.broadcast(JSON.stringify(location));
+    console.log("Client connected!");
     /*timer = setTimeout(function(){ 
         sesion_estado = "NULA"; 
                 html_player_controller.sesion= "FINALIZAR_SESION";
@@ -68,6 +68,7 @@ app.post(/^(.+)$/, function(req, res){
         case '/location':
             //res.send(JSON.stringify(aceleracion));
             console.log(req.body.json);
+            wss.broadcast(JSON.stringify(location));
             res.end(); 
             break;
     default: //res.sendFile( __dirname + req.params[0]); 
