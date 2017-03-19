@@ -18,10 +18,11 @@ app.use(bodyParser.urlencoded({
         }));
 
 wss.on('connection', function(ws) {
+    console.log("Client connected!");
     ws.on('message', function(message) {
     //location = JSON.parse(message);
     //wss.broadcast(JSON.stringify(location));
-    console.log("Client connected!");
+    console.log("Client says: " +  message);
     /*timer = setTimeout(function(){ 
         sesion_estado = "NULA"; 
                 html_player_controller.sesion= "FINALIZAR_SESION";
