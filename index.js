@@ -40,8 +40,7 @@ wss.on('connection', function(ws) {
     var objeto = new Object();
     objeto = JSON.parse(message);
     wss.broadcast(JSON.stringify(objeto));
-        //wss.broadcast(message);*/
-    } 
+        //wss.broadcast(message);*/ 
     });
 });
 
