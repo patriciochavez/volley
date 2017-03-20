@@ -6,6 +6,7 @@ var WebSocketServer = require('ws').Server;
 var sesion_estado = "NULA";
 var timer;
 var html_player_controller = new Object();
+var location = new Object();
 var http = require('http');
 
 var httpServer = http.createServer(app).listen(8080);
@@ -17,7 +18,9 @@ app.use(bodyParser.urlencoded({
         }));
 
 wss.on('connection', function(ws) {
+    console.log("Client connected!");
     ws.on('message', function(message) {
+    console.log(JSON.parse(message));
     html_player_controller = JSON.parse(message);
     if(html_player_controller.sesion == "NUEVA_SESION") {
     sesion_estado = "ACTIVA";
@@ -41,8 +44,7 @@ wss.on('connection', function(ws) {
     var objeto = new Object();
     objeto = JSON.parse(message);
     wss.broadcast(JSON.stringify(objeto));
-        //wss.broadcast(message);
-    } 
+        } 
     });
 });
 
@@ -67,8 +69,7 @@ app.get(/^(.+)$/, function(req, res){
 
 app.post(/^(.+)$/, function(req, res){ 
     switch(req.params[0]) {
-        case '/location':
-            //res.send(JSON.stringify(aceleracion));
+        case '/location':          
             console.log(req.body.json);
             wss.broadcast(JSON.stringify(location));
             res.end(); 
