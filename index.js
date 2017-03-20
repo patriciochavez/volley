@@ -20,31 +20,9 @@ app.use(bodyParser.urlencoded({
 wss.on('connection', function(ws) {
     console.log("Client connected!");
     ws.on('message', function(message) {
-    console.log(JSON.parse(message));
-    html_player_controller = JSON.parse(message);
-    if(html_player_controller.sesion == "NUEVA_SESION") {
-    sesion_estado = "ACTIVA";
-    wss.broadcast(JSON.stringify(html_player_controller));
-    console.log(JSON.stringify(html_player_controller));
-    timer = setTimeout(function(){ 
-        sesion_estado = "NULA"; 
-                html_player_controller.sesion= "FINALIZAR_SESION";
-        console.log(JSON.stringify(html_player_controller));
-                wss.broadcast(JSON.stringify(html_player_controller));
-        }, 30000);  
-    } else if(sesion_estado == "ACTIVA"){
-    clearTimeout(timer);
-        timer = setTimeout(function(){
-                sesion_estado = "NULA";
-        html_player_controller.sesion = "FINALIZAR_SESION";
-        console.log(JSON.stringify(html_player_controller));
-        wss.broadcast(JSON.stringify(html_player_controller));  
-                }, 30000);
-        console.log( JSON.parse(message));
-    var objeto = new Object();
-    objeto = JSON.parse(message);
-    wss.broadcast(JSON.stringify(objeto));
-        } 
+    console.log(message);
+    location = JSON.parse(message);
+    wss.broadcast(JSON.stringify(location));
     });
 });
 
@@ -54,27 +32,27 @@ wss.broadcast = function(data) {
     }
 };
 
-app.get(/^(.+)$/, function(req, res){ 
+app.get(/^(.+)$/, function(req, res){
     switch(req.params[0]) {
         case '/test':
             res.send("Ok!");
             break;
         case '/location':
             res.send(JSON.stringify(location));
-            break;            
-    default: 
-            res.sendFile( __dirname + req.params[0]); 
+            break;
+    default:
+            res.sendFile( __dirname + req.params[0]);
     }
  });
 
-app.post(/^(.+)$/, function(req, res){ 
+app.post(/^(.+)$/, function(req, res){
     switch(req.params[0]) {
-        case '/location':          
+        case '/location':
             console.log(req.body.json);
             wss.broadcast(JSON.stringify(location));
-            res.end(); 
+            res.end();
             break;
-    default: 
-            res.sendFile( __dirname + req.params[0]); 
+    default:
+            res.sendFile( __dirname + req.params[0]);
     }
  });
