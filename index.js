@@ -60,7 +60,8 @@ app.get(/^(.+)$/, function(req, res){
         case '/location':
             res.send(JSON.stringify(location));
             break;            
-    default: //res.sendFile( __dirname + req.params[0]); 
+    default: 
+            res.sendFile( __dirname + req.params[0]); 
     }
  });
 
@@ -72,6 +73,7 @@ app.post(/^(.+)$/, function(req, res){
             wss.broadcast(JSON.stringify(location));
             res.end(); 
             break;
-    default: //res.sendFile( __dirname + req.params[0]); 
+    default: 
+            res.sendFile( __dirname + req.params[0]); 
     }
  });
