@@ -49,6 +49,7 @@ app.post(/^(.+)$/, function(req, res){
     switch(req.params[0]) {
         case '/location':
             console.log(req.body.json);
+            location = JSON.parse(req.body.json);
             wss.broadcast(JSON.stringify(location));
             res.end();
             break;
