@@ -5,7 +5,6 @@ var app = express();
 var WebSocketServer = require('ws').Server;
 var sesion_estado = "NULA";
 var timer;
-var html_player_controller = new Object();
 var location = new Object();
 var http = require('http');
 
