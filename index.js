@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({
 
 wss.on('connection', function(ws) {
     console.log("Client connected!");
+    wss.broadcast(JSON.stringify(location));
     ws.on('message', function(message) {
     console.log(message);
     location = JSON.parse(message);
