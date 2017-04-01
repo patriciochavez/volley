@@ -82,7 +82,7 @@ app.get(/^(.+)$/, function(req, res){
             res.send(JSON.stringify(location));
             break;         
         case '/buzzer':
-            res.send(buzzer);
+            res.send(buzzer+"");
             break;   
     default: //res.sendFile( __dirname + req.params[0]); 
     }
