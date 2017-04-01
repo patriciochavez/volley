@@ -10,6 +10,7 @@ var center = new Object();
 center.lat = -34.5785;
 center.lon = -58.64444;
 var buzzer = 0;
+var active = true;
 
 var location = new Object();
 
@@ -82,7 +83,13 @@ app.get(/^(.+)$/, function(req, res){
             res.send(JSON.stringify(location));
             break;         
         case '/buzzer':
-            res.send(buzzer+"");
+            if (active) {
+                res.send("|" + buzzer);
+            }
+            res.end();            
+            break;
+        case '/active':
+            res.send(active);            
             break;   
     default: //res.sendFile( __dirname + req.params[0]); 
     }
@@ -106,6 +113,9 @@ app.post(/^(.+)$/, function(req, res){
                 buzzer = 0;
             }
             break;
+        case '/active':
+            active = !active;            
+            break;   
     default: //res.sendFile( __dirname + req.params[0]); 
     }
  });
