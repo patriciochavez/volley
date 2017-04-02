@@ -85,8 +85,9 @@ app.get(/^(.+)$/, function(req, res){
         case '/buzzer':
             if (active) {
                 res.send("|" + buzzer);
-            }
-            res.end();            
+            } else {
+                res.send("|0");
+            }            
             break;
         case '/active':
             res.send(active);            
