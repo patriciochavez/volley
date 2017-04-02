@@ -14,7 +14,6 @@ var current = new NodeTtl({
         ttl: 10,
         checkPeriode: 12});
 
-
 var location = new Object();
 
 var httpServer = http.createServer(app).listen(8080);
@@ -88,7 +87,8 @@ app.post(/^(.+)$/, function(req, res){
         case '/location':
             //res.send(JSON.stringify(aceleracion));
             console.log(req.body.json);
-            location = current.get("location");
+            location = req.body.json;
+            current.push("location", location);
             wss.broadcast(JSON.stringify(location));
             res.end(); 
             var mts = getDistanceFromLatLonInMbts(center.lat,center.lon,location.latitude,location.longitude);
