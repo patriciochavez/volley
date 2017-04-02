@@ -43,13 +43,13 @@ function deg2rad(deg) {
 }
 
 wss.on('connection', function(ws) {
-    console.log("Client connected!");
-    wss.broadcast(JSON.stringify(location));
+    //console.log("Client connected!");
+    if (location != null) wss.broadcast(JSON.stringify(location));
     ws.on('message', function(message) {
     console.log(message);
     location = JSON.parse(message);
     current.push("location", location);
-    wss.broadcast(JSON.stringify(location));
+    if (location != null) wss.broadcast(JSON.stringify(location));
     });
 });
 
@@ -90,7 +90,7 @@ app.post(/^(.+)$/, function(req, res){
             console.log(req.body.json);
             location = req.body.json;
             current.push("location", location);
-            wss.broadcast(JSON.stringify(location));
+            wss.broadcast(req.body.json);
             res.end(); 
             var mts = getDistanceFromLatLonInMbts(center.lat,center.lon,location.latitude,location.longitude);
             if (-100 > mts < 100){
