@@ -69,7 +69,7 @@ app.get(/^(.+)$/, function(req, res){
             res.send(JSON.stringify(location));
             break;         
         case '/buzzer':
-            if (active) {
+            if (active && location != null) {
                 res.send("|" + buzzer);
             } else {
                 res.send("|0");
