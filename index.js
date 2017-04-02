@@ -114,7 +114,8 @@ app.post(/^(.+)$/, function(req, res){
             }
             break;
         case '/active':
-            active = !active;            
+            active = !active;
+            res.end();            
             break;   
     default: //res.sendFile( __dirname + req.params[0]); 
     }
