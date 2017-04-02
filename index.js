@@ -3,14 +3,17 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
 var WebSocketServer = require('ws').Server;
-//var sesion_estado = "NULA";
-//var timer;
 var http = require('http');
 var center = new Object();
 center.lat = -34.5785;
 center.lon = -58.64444;
 var buzzer = 0;
 var active = true;
+var NodeTtl = require( "node-ttl" );
+var current = new NodeTtl({
+        ttl: 10,
+        checkPeriode: 12});
+
 
 var location = new Object();
 
@@ -42,29 +45,12 @@ function deg2rad(deg) {
 
 wss.on('connection', function(ws) {
     console.log("Client connected!");
+    wss.broadcast(JSON.stringify(location));
     ws.on('message', function(message) {
-    //location = JSON.parse(message);
-    //wss.broadcast(JSON.stringify(location));
-    console.log("Client says: " +  message);
-    /*timer = setTimeout(function(){ 
-        sesion_estado = "NULA"; 
-                html_player_controller.sesion= "FINALIZAR_SESION";
-        console.log(JSON.stringify(html_player_controller));
-                wss.broadcast(JSON.stringify(html_player_controller));
-        }, 30000);  
-    } else if(sesion_estado == "ACTIVA"){
-    clearTimeout(timer);
-        timer = setTimeout(function(){
-                sesion_estado = "NULA";
-        html_player_controller.sesion = "FINALIZAR_SESION";
-        console.log(JSON.stringify(html_player_controller));
-        wss.broadcast(JSON.stringify(html_player_controller));  
-                }, 30000);
-        console.log( JSON.parse(message));
-    var objeto = new Object();
-    objeto = JSON.parse(message);
-    wss.broadcast(JSON.stringify(objeto));
-        //wss.broadcast(message);*/ 
+    console.log(message);
+    location = JSON.parse(message);
+    current.push("location", location);
+    wss.broadcast(JSON.stringify(location));
     });
 });
 
@@ -80,6 +66,7 @@ app.get(/^(.+)$/, function(req, res){
             res.send("Ok!");
             break;
         case '/location':
+            location = current.get("location");
             res.send(JSON.stringify(location));
             break;         
         case '/buzzer':
@@ -101,6 +88,7 @@ app.post(/^(.+)$/, function(req, res){
         case '/location':
             //res.send(JSON.stringify(aceleracion));
             console.log(req.body.json);
+            location = current.get("location");
             wss.broadcast(JSON.stringify(location));
             res.end(); 
             var mts = getDistanceFromLatLonInMbts(center.lat,center.lon,location.latitude,location.longitude);
