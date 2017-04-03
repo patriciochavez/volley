@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({
         extended: true
         }));
 
-function getDistanceFromLatLonInMbts(lat1,lon1,lat2,lon2) {
+function getDistanceFromLatLonInMts(lat1,lon1,lat2,lon2) {
   var R = 6378137 // Radius of the earth in m
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
   var dLon = deg2rad(lon2-lon1); 
@@ -92,12 +92,13 @@ app.post(/^(.+)$/, function(req, res){
             current.push("location", location);
             wss.broadcast(req.body.json);
             res.end(); 
-            var mts = getDistanceFromLatLonInMbts(center.lat,center.lon,location.latitude,location.longitude);
-            if (-100 > mts < 100){
+            var mts = getDistanceFromLatLonInMts(center.lat,center.lon,location.latitude,location.longitude);
+            console.log("mts: " + mts);
+            if (mts < 100){
                 buzzer = 1;
-            } else if (-200 > mts < 200){
+            } else if (mts < 200){
                 buzzer = 2;
-            } else if (-300 > mts < 300){
+            } else if (mts < 300){
                 buzzer = 3;
             } else {
                 buzzer = 0;
