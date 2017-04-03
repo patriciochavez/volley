@@ -65,11 +65,11 @@ app.get(/^(.+)$/, function(req, res){
             res.send("Ok!");
             break;
         case '/location':
-            location = JSON.parse(current.get("location"));
+            location = current.get("location");
             res.send(JSON.stringify(location));
             break;         
         case '/buzzer':
-            location = JSON.parse(current.get("location"));
+            location = current.get("location");
             if (active && location != null) {
                 res.send("|" + buzzer);
             } else {
@@ -89,10 +89,12 @@ app.post(/^(.+)$/, function(req, res){
             //res.send(JSON.stringify(aceleracion));
             console.log(req.body.json);
             location = req.body.json;
-            current.push("location", location);
+            current.push("location", JSON.parse(location));
             wss.broadcast(req.body.json);
             res.end(); 
-            var mts = getDistanceFromLatLonInMts(center.lat,center.lon,location.latitude,location.longitude);
+            var mts = getDistanceFromLatLonInMts(center.lat, center.lon, location.latitude, location.longitude);
+            console.log("req.body.json: " + req.body.json);
+            console.log("current.get: " + current.get("location"));
             console.log("mts: " + mts);
             if (mts < 100){
                 buzzer = 1;
