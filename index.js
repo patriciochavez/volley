@@ -88,13 +88,11 @@ app.post(/^(.+)$/, function(req, res){
         case '/location':
             //res.send(JSON.stringify(aceleracion));
             console.log(req.body.json);
-            location = req.body.json;
-            current.push("location", JSON.parse(location));
+            location = JSON.parse(req.body.json);
+            current.push("location", location);
             wss.broadcast(req.body.json);
             res.end(); 
             var mts = getDistanceFromLatLonInMts(center.lat, center.lon, location.latitude, location.longitude);
-            console.log("req.body.json: " + req.body.json);
-            console.log("current.get: " + current.get("location"));
             console.log("mts: " + mts);
             if (mts < 100){
                 buzzer = 1;
