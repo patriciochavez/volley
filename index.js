@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
         }));
 
 function getDistanceFromLatLonInMbts(lat1,lon1,lat2,lon2) {
-  var R = 6371000; // Radius of the earth in m
+  var R = 6378137 // Radius of the earth in m
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
   var dLon = deg2rad(lon2-lon1); 
   var a = 
