@@ -44,7 +44,7 @@ function deg2rad(deg) {
 
 wss.on('connection', function(ws) {
     //console.log("Client connected!");
-    //if (location != null) wss.broadcast(JSON.stringify(location));
+    if (location != null) wss.broadcast(JSON.stringify(location));
     ws.on('message', function(message) {
     console.log(message);
     location = JSON.parse(message);
