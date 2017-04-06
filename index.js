@@ -70,7 +70,7 @@ app.get(/^(.+)$/, function(req, res){
             break;         
         case '/buzzer':
             location = current.get("location");
-            if (active && location != null) {
+            if (active && location != null && location.user == "host") {
                 res.send("|" + buzzer);
             } else {
                 res.send("|0");
