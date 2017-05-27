@@ -15,7 +15,12 @@
     "https": "^1.0.0",
     "mocha": "^2.4.5",
     "ws": "^1.1.1",
-    "node-ttl": "0.0.5"
+    "cookie-parser": "^1.4.3",
+    "cookieparser": "^0.1.0",
+    "crypto": "0.0.3",
+    "jade": "^1.11.0",
+    "restify-https": "0.0.3",    
+    "node-ttl": "0.0.5"    
   },
     "engine": {
     "node": "*",
