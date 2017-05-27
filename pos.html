@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Actualizando</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+    <script src="./metodos.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  </head>
+  <body onload="validarToken();">
+    <div id="map"></div>   
+<script>
+var geo_loc = false;
+var rcv_loc = new Object();
+var pos = { lat: 0, lng: 0 };
+var marker_remote;
+var marker_local;
+
+var ws = new WebSocket("wss://volley-vr.1d35.starter-us-east-1.openshiftapps.com");
+
+ws.onopen = function() {    
+  console.log("wss connected!")
+  initMap(); 
+};
+        
+ws.onmessage = function (evt) { 
+  rcv_loc = JSON.parse(evt.data);
+  console.log(rcv_loc);
+  updateMap();
+};
+     
+ws.onclose = function() {               
+  console.log("wss closed!") 
+}; 
+ 
+var map;
+
+function initMap() {  
+
+  if (navigator.geolocation) {        
+        geo_loc = true;
+    } 
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 0, lng: 0},
+    zoom: 16
+  });
+
+  marker_remote = new google.maps.Marker({
+    position: pos,
+    map: map,
+    icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+    title: 'host'
+  });  
+  
+  if (geo_loc){
+    navigator.geolocation.getCurrentPosition(initLocalMarker);    
+  }
+}
+
+function initLocalMarker(position){
+  pos_local = {  lat: position.coords.latitude,
+                  lng: position.coords.longitude 
+    };
+
+  marker_local = new google.maps.Marker({
+    position: pos_local,
+    map: map,
+    icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    title: 'Yo'
+  });
+
+  /*var ws_pos_local = new Object();
+  ws_pos_local.latitude = pos_local.latitude;
+  ws_pos_local.longitude = pos_local.longitude;
+  ws_pos_local.user = "guest";
+
+  ws.send(JSON.stringify(ws_pos_local));*/
+}
+
+function updateLocalMarker(position){
+
+ pos_local = {  lat: position.coords.latitude,
+                  lng: position.coords.longitude 
+  };
+
+  marker_local.setPosition(pos_local);
+
+ var ws_pos_local = new Object();
+  ws_pos_local.latitude = position.coords.latitude;
+  ws_pos_local.longitude = position.coords.longitude;
+  ws_pos_local.user = "guest";
+
+  //console.log(JSON.stringify(ws_pos_local));
+  ws.send(JSON.stringify(ws_pos_local));
+
+}
+  
+function updateMap(){ 
+
+  map = map, {
+    center: {lat: rcv_loc.latitude, lng: rcv_loc.longitude}
+  };
+
+
+  if (rcv_loc != null && rcv_loc.user == "host") {  
+  
+  document.title = rcv_loc.timestamp;
+      pos_remote = {
+        lat: rcv_loc.latitude,
+        lng: rcv_loc.longitude
+      };
+
+   
+    marker_remote.setPosition(pos_remote);
+
+    map.setCenter(pos_remote);
+    handleLocationError(true);
+    }else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false);
+  }
+  if (geo_loc){
+    navigator.geolocation.getCurrentPosition(updateLocalMarker);
+  }
+}
+
+function handleLocationError(browserHasInfo, infoWindow, pos) {
+  //infoWindow.setPosition(pos);
+  console.log(browserHasInfo ? 'Recibiendo datos' : 'Esperando datos');
+}
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBg4Iyt6xWt7KsapU6-pryLN3JS9pBAyfk&callback=initMap"
+        async defer>
+    </script>
+  </body>
+</html>

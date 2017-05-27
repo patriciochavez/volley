@@ -49,7 +49,7 @@
       }        });
       }
       function validarToken(){
-      console.log('paso');
+      //console.log('paso');
       var id = (document.cookie.match(/^(?:.*;)?token=([^;]+)(?:.*)?$/)||[,null])[1];
       var token = new Object();
       token.id = id;
