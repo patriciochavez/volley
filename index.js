@@ -88,13 +88,19 @@ app.get(/^(.+)$/, function(req, res){
             res.render('login',{title:'Login'});
             res.end();                     
             break;
+        case '/pos.html':
+            res.sendFile(__dirname + req.params[0]);
+            break;
+        case '/mon.html':
+            res.sendFile(__dirname + req.params[0]);
+            break;
         case '/token':
             var guest = req.query.guest;        
             if (guest == toAuth.get(guest)) {
                 sesiones.push(guest);                
                 console.log(guest);
                 res.cookie('token', guest, { expires: new Date(Date.now() + 900000) } );
-                res.redirect('/location.html');                    
+                res.redirect('/mon.html');                    
                 } else {
                     res.redirect('/');                    
                 }        
