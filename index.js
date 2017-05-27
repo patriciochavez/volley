@@ -114,7 +114,8 @@ app.get(/^(.+)$/, function(req, res){
         case '/active':
             res.send(active);            
             break;   
-    default: //res.sendFile( __dirname + req.params[0]); 
+    default: 
+        res.sendFile( __dirname + req.params[0]); 
     }
  });
 
