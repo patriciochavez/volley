@@ -14,6 +14,9 @@ var NodeTtl = require( "node-ttl" );
 var current = new NodeTtl({
         ttl: 10,
         checkPeriode: 12});
+var toAuth = new NodeTtl({
+        ttl: 600,
+        checkPeriode: 620});
 
 var location = new Object();
 
@@ -152,10 +155,7 @@ app.post(/^(.+)$/, function(req, res){
             break;
         case '/toauth':
             var android = new Object();
-            android = JSON.parse(req.body);
-            console.log(req.body);
-            console.log(req.body.json);
-            console.log(android);
+            android = JSON.parse(req.body.json);            
             if(android.usuario == usuario && android.password == password){
             var token_toAuth = Math.random().toString(36).substring(7);        
             toAuth.push(token_toAuth, token_toAuth);
@@ -183,7 +183,7 @@ app.post(/^(.+)$/, function(req, res){
             }
         }
         for(j = 0; j < toAuth.length; j++){
-            if(toAuth[token_recibido] == token_recibido){
+            if(toAuth[j] == token_recibido){
                 token_existente = true;
                 }                
             }
