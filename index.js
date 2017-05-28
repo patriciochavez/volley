@@ -168,7 +168,7 @@ app.post(/^(.+)$/, function(req, res){
             //console.log( "login: " + token);
             if (token!="incorrecto"){
                 res.cookie('token', token, { expires: new Date(Date.now() + 900000) } );
-                res.send({message: 'correcto', accion: 'redirect', destino:'/pos.html'});
+                res.send({message: 'correcto', accion: 'redirect', destino:'/mon.html'});
                 }else{
                    res.send({message:'incorrecto', accion: 'redirect', destino:'/'});
                    }
