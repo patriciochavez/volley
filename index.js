@@ -152,7 +152,10 @@ app.post(/^(.+)$/, function(req, res){
             break;
         case '/toauth':
             var android = new Object();
-            android = JSON.parse(req.body.json);
+            android = JSON.parse(req.body);
+            console.log(req.body);
+            console.log(req.body.json);
+            console.log(android);
             if(android.usuario == usuario && android.password == password){
             var token_toAuth = Math.random().toString(36).substring(7);        
             toAuth.push(token_toAuth, token_toAuth);
