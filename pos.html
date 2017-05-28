@@ -124,11 +124,10 @@ function showLocalPosition(position) {
  }
 
 function updateRemote(){
-    $.get(locationURL, function(rcv_loc, status){
-    
-    	if (rcv_loc == null) return;
-console.log(rcv_loc);
-console.log(JSON.parse(rcv_loc).latitude);
+    $.get(locationURL, function(json_rcv_loc, status){
+    	if (json_rcv_loc == null) return;
+   	    var rcv_loc = JSON.parse(json_rcv_loc);
+
     	map = map, {
 	    	center: {lat: rcv_loc.latitude, lng: rcv_loc.longitude}
   	 	};
