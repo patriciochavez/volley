@@ -184,7 +184,6 @@ app.post(/^(.+)$/, function(req, res){
                 token_existente = true;
                 }                
             }
-        }
         if(token_existente==true){
             res.send({message:'correcto', accion: 'nada'});
         }else{
