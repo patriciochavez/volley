@@ -127,7 +127,8 @@ function updateRemote(){
     $.get(locationURL, function(rcv_loc, status){
     
     	if (rcv_loc == null) return;
-
+console.log(rcv_loc);
+console.log(JSON.parse(rcv_loc).latitude);
     	map = map, {
 	    	center: {lat: rcv_loc.latitude, lng: rcv_loc.longitude}
   	 	};
