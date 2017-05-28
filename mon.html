@@ -112,12 +112,11 @@ function localUpdateMap(){
 }
 
 function showLocalPosition(position) {
-map = map, {
+  map = map, {
       center: {lat: position.coords.latitude, lng: position.coords.longitude}
       };
 
-//document.title = updateLocalMarker;
-        pos_local = {  lat: position.coords.latitude,
+  pos_local = {  lat: position.coords.latitude,
                       lng: position.coords.longitude 
       };
   map.setCenter(pos_local);
