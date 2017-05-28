@@ -179,6 +179,12 @@ app.post(/^(.+)$/, function(req, res){
                 token_existente = true;
             }
         }
+        for(j = 0; j < toAuth.length; j++){
+            if(toAuth[token_recibido] == token_recibido){
+                token_existente = true;
+                }                
+            }
+        }
         if(token_existente==true){
             res.send({message:'correcto', accion: 'nada'});
         }else{
