@@ -77,6 +77,7 @@ function initMap() {
   });
 
   if (navigator.geolocation) {
+      localUpdateMap();
       updateLocalMarker = setInterval(localUpdateMap, 5000);
       //updateRemoteMarker = setInterval(updateRemote, 5000);
     }
