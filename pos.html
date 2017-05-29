@@ -78,7 +78,7 @@ function initMap() {
 
   if (navigator.geolocation) {
       updateLocalMarker = setInterval(localUpdateMap, 5000);
-      updateRemoteMarker = setInterval(updateRemote, 5000);
+      //updateRemoteMarker = setInterval(updateRemote, 5000);
     }
 }
 
@@ -121,6 +121,7 @@ function showLocalPosition(position) {
 
   //map.setCenter(pos_local);
   marker_local.setPosition(pos_local);
+  updateRemote();
  }
 
 function updateRemote(){

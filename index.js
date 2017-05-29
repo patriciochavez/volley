@@ -103,7 +103,7 @@ app.get(/^(.+)$/, function(req, res){
                 sesiones.push(guest);                
                 console.log(guest);
                 res.cookie('token', guest, { expires: new Date(Date.now() + 900000) } );
-                res.redirect('/mon.html');                    
+                res.redirect('/pos.html');                    
                 } else {
                     res.redirect('/');                    
                 }        
@@ -168,7 +168,7 @@ app.post(/^(.+)$/, function(req, res){
             //console.log( "login: " + token);
             if (token!="incorrecto"){
                 res.cookie('token', token, { expires: new Date(Date.now() + 900000) } );
-                res.send({message: 'correcto', accion: 'redirect', destino:'/mon.html'});
+                res.send({message: 'correcto', accion: 'redirect', destino:'/pos.html'});
                 }else{
                    res.send({message:'incorrecto', accion: 'redirect', destino:'/'});
                    }
