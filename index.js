@@ -28,7 +28,7 @@ var options = {
   password: 'mi_clave',
 };
 
-var client = mqtt.connect('200.5.235.52', options);
+var client = mqtt.connect('mqtt://200.5.235.52', options);
 
 var httpServer = http.createServer(app).listen(8080);
 var wss = new WebSocketServer({server: httpServer});
