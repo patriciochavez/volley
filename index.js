@@ -10,7 +10,7 @@ var center = new Object();
 center.lat = -34.5785;
 center.lon = -58.64444;
 var buzzer = 0;
-var active = true;
+var sound = false;
 var NodeTtl = require( "node-ttl" );
 var current = new NodeTtl({
         ttl: 10,
@@ -28,7 +28,7 @@ var options = {
   password: 'mi_clave',
 };
 
-var client = mqtt.connect('mqtt://200.5.235.52', options);
+var mqttclient = mqtt.connect('mqtt://200.5.235.52', options);
 
 var httpServer = http.createServer(app).listen(8080);
 var wss = new WebSocketServer({server: httpServer});
@@ -47,16 +47,17 @@ var usuario = "rayen";
 var password = "mgx506";
 var token;
 
-client.on('connect', function() { // When connected
-  client.subscribe('casa/#', function() {
-    client.on('message', function(topic, message, packet) {
-      console.log("Received '" + message + "' on '" + topic + "'");
-    });
-  });
 
-client.publish('casa/living/temperatura', '0', function() {
-    console.log("Message is published");
-    client.end();
+mqttclient.on('connect', function() { // When connected
+  mqttclient.subscribe('casa/buzzer', function() {
+    mqttclient.on('message', function(topic, message, packet) {
+      if(message == '0'){   
+        mqttclient.publish('casa/buzzer', buzzer, function() {
+        });
+      } else if (message == '1'){
+        sound = !sound;
+      }
+    });
   });
 });
 
@@ -135,17 +136,6 @@ app.get(/^(.+)$/, function(req, res){
             location = current.get("location");
             res.send(JSON.stringify(location));
             break;         
-        case '/buzzer':
-            location = current.get("location");
-            if (active && location != null && location.user == "host") {
-                res.send("|" + buzzer);
-            } else {
-                res.send("|0");
-            }            
-            break;
-        case '/active':
-            res.send(active);            
-            break;   
     default: 
         res.sendFile( __dirname + req.params[0]); 
     }
@@ -171,10 +161,10 @@ app.post(/^(.+)$/, function(req, res){
             } else {
                 buzzer = 0;
             }
-            break;
-        case '/active':
-            active = !active;
-            res.end();            
+            if(buzzer >0 && sound){                
+                mqttclient.publish('casa/buzzer', buzzer, function() {
+                });
+            }
             break;
         case '/toauth':
             var android = new Object();
