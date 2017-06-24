@@ -161,8 +161,8 @@ app.post(/^(.+)$/, function(req, res){
             } else {
                 buzzer = 0;
             }
-            if(buzzer >0 && sound){                
-                mqttclient.publish('casa/buzzer', buzzer, function() {
+            if(buzzer > 0 && sound){                
+                mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
                 });
             }
             break;
