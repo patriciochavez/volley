@@ -1,3 +1,4 @@
+var mqtt = require('mqtt');
 var path = require('path');
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -20,6 +21,15 @@ var toAuth = new NodeTtl({
 
 var location = new Object();
 
+var options = {
+  port: '1883',
+  clientId: 'mqttjs_' + Math.random().toString(16).substr(2, 8),
+  username: 'mi_usuario',
+  password: 'mi_clave',
+};
+
+var client = mqtt.connect('200.5.235.52', options);
+
 var httpServer = http.createServer(app).listen(8080);
 var wss = new WebSocketServer({server: httpServer});
 
@@ -36,6 +46,19 @@ var sesiones = new Array();
 var usuario = "rayen";
 var password = "mgx506";
 var token;
+
+client.on('connect', function() { // When connected
+  client.subscribe('casa/#', function() {
+    client.on('message', function(topic, message, packet) {
+      console.log("Received '" + message + "' on '" + topic + "'");
+    });
+  });
+
+client.publish('casa/living/temperatura', '0', function() {
+    console.log("Message is published");
+    client.end();
+  });
+});
 
 function validarUsuario (u,p){    
     if (u==usuario && p==password) {
