@@ -53,7 +53,7 @@ mqttclient.on('connect', function() { // When connected
   });
 });
 
-var alarma = 1;
+var alarma = "1";
 
 mqttclient.on('message', function(topic, message, packet) {
     mqttclient.publish('casa/buzzer/estado', alarma, function() {
