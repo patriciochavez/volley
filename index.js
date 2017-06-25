@@ -54,6 +54,11 @@ mqttclient.on('connect', function() { // When connected
   });
 });
 
+if(sound){                
+    mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
+    });
+}
+
 /*
 mqttclient.on('message', function(topic, message, packet) {
     mqttclient.publish('casa/buzzer/estado', alarm, function() {
