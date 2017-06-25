@@ -10,8 +10,7 @@ var center = new Object();
 center.lat = -34.5785;
 center.lon = -58.64444;
 var buzzer = "0";
-var sound = true;
-var alarm = "nada";
+var sound = false;
 var NodeTtl = require( "node-ttl" );
 var current = new NodeTtl({
         ttl: 10,
@@ -54,17 +53,15 @@ mqttclient.on('connect', function() { // When connected
   });
 });
 
-if(sound){                
-    mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
-    });
-}
-
-/*
 mqttclient.on('message', function(topic, message, packet) {
-    mqttclient.publish('casa/buzzer/estado', alarm, function() {
+	if(topic == 'casa/buzzer/estado'){
+		if (message == '1'){
+		sound = !sound;
+		}
+	} 
+    mqttclient.publish('casa/buzzer/sound', sound, function() {
     });
 });
-*/
 
 function validarUsuario (u,p){    
     if (u == usuario && p == password) {
@@ -166,8 +163,7 @@ app.post(/^(.+)$/, function(req, res){
             } else {
                 buzzer = "0";
             }
-            //if(parseInt(buzzer) > 0 && sound){
-            if(sound){                
+            if(parseInt(buzzer) > 0 && sound){             
                 mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
                 });
             }
