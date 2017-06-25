@@ -172,6 +172,8 @@ app.post(/^(.+)$/, function(req, res){
                 mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
                 });
             }
+             mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
+                });
             break;
         case '/toauth':
             var android = new Object();
