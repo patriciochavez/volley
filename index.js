@@ -168,12 +168,12 @@ app.post(/^(.+)$/, function(req, res){
             } else {
                 buzzer = "0";
             }
-            if(buzzer != "0" && sound == true){             
-                mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
-                });
+            if (sound){
+            	if(buzzer != "0"){             
+                	mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
+                	});
+            	}
             }
-             mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
-                });
             break;
         case '/toauth':
             var android = new Object();
