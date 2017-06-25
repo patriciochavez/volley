@@ -50,14 +50,13 @@ var token;
 
 mqttclient.on('connect', function() { // When connected
   mqttclient.subscribe('casa/buzzer', function() {
-
   });
 });
 
 mqttclient.on('message', function(topic, message, packet) {
-        mqttclient.publish('casa/buzzer/estado', 'activado', function() {
-        });
+    if (topic == 'casa/buzzer' && message == '0') mqttclient.publish('casa/buzzer/estado', buzzer, function() {
     });
+});
 
 function validarUsuario (u,p){    
     if (u==usuario && p==password) {
