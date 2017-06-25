@@ -59,10 +59,10 @@ mqttclient.on('message', function(topic, message, packet) {
 		sound = !sound;
 		}
 		if (sound){
-		mqttclient.publish('casa/buzzer/sonido', 'activado', function() {
+		mqttclient.publish('casa/buzzer/sonido', '0', function() {
     		});
 		} else {
-			mqttclient.publish('casa/buzzer/sonido', 'desactivado', function() {
+			mqttclient.publish('casa/buzzer/sonido', '1', function() {
     		});
 		}
 	}     
