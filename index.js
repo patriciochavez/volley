@@ -52,7 +52,7 @@ mqttclient.on('connect', function() { // When connected
   mqttclient.subscribe('casa/buzzer', function() {
     mqttclient.on('message', function(topic, message, packet) {
         mqttclient.publish('casa/buzzer/estado', buzzer, function() {      
-      }      
+            
     });
   });
 });
