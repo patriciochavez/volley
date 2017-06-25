@@ -53,7 +53,7 @@ mqttclient.on('connect', function() { // When connected
   });
 });
 
-mqttclient.on('message', function(topic, message, packet) {
+mqttclient.on('message', buzzer, function(topic, message, packet) {
     if (topic == 'casa/buzzer' && message == '0') mqttclient.publish('casa/buzzer/estado', buzzer, function() {
     });
 });
