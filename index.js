@@ -11,6 +11,7 @@ center.lat = -34.5785;
 center.lon = -58.64444;
 var buzzer = 0;
 var sound = false;
+var alarm = "nada";
 var NodeTtl = require( "node-ttl" );
 var current = new NodeTtl({
         ttl: 10,
@@ -53,20 +54,20 @@ mqttclient.on('connect', function() { // When connected
   });
 });
 
-var alarma = "1";
-
+/*
 mqttclient.on('message', function(topic, message, packet) {
-    mqttclient.publish('casa/buzzer/estado', alarma, function() {
+    mqttclient.publish('casa/buzzer/estado', alarm, function() {
     });
 });
+*/
 
 function validarUsuario (u,p){    
-    if (u==usuario && p==password) {
+    if (u == usuario && p == password) {
         token = Math.random().toString(36).substring(7);
         sesiones.push(token);
         //buscar la forma de borrar la sesion del array cuando expire    
     } else {
-        token="incorrecto";
+        token = "incorrecto";
     }
 }
 
@@ -152,15 +153,15 @@ app.post(/^(.+)$/, function(req, res){
             var mts = getDistanceFromLatLonInMts(center.lat, center.lon, location.latitude, location.longitude);
             console.log("mts: " + mts);
             if (mts < 100){
-                buzzer = 1;
+                buzzer = "1";
             } else if (mts < 200){
-                buzzer = 2;
+                buzzer = "2";
             } else if (mts < 300){
-                buzzer = 3;
+                buzzer = "3";
             } else {
-                buzzer = 0;
+                buzzer = "0";
             }
-            if(buzzer > 0 && sound){                
+            if(parseInt(buzzer) > 0 && sound){                
                 mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
                 });
             }
