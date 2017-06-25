@@ -65,7 +65,6 @@ mqttclient.on('message', function(topic, message, packet) {
 			mqttclient.publish('casa/buzzer/sonido', 'desactivado', function() {
     		});
 		}
-
 	}     
 });
 
@@ -169,7 +168,7 @@ app.post(/^(.+)$/, function(req, res){
             } else {
                 buzzer = "0";
             }
-            if(parseInt(buzzer) > 0 && sound){             
+            if(buzzer != "0" && sound == true){             
                 mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
                 });
             }
