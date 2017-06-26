@@ -49,11 +49,11 @@ var token;
 
 
 mqttclient.on('connect', function() { // When connected
-  mqttclient.subscribe('casa/buzzer/#', function() {
-  });
+  //mqttclient.subscribe('casa/buzzer/#', function() {
+  //});
 });
 
-mqttclient.on('message', function(topic, message, packet) {
+/*mqttclient.on('message', function(topic, message, packet) {
 	if(topic == 'casa/buzzer/estado'){
 		if (message == '1'){
 		sound = !sound;
@@ -66,7 +66,7 @@ mqttclient.on('message', function(topic, message, packet) {
     		});
 		}
 	}     
-});
+});*/
 
 function validarUsuario (u,p){    
     if (u == usuario && p == password) {
