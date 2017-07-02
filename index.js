@@ -17,7 +17,10 @@ var current = new NodeTtl({
 var toAuth = new NodeTtl({
         ttl: 600,
         checkPeriode: 620});
-
+var lighton = new NodeTtl({
+        ttl: 15,
+        checkPeriode: 20});
+var lightStatus = 'apagado';
 var location = new Object();
 
 var options = {
@@ -48,6 +51,13 @@ var token;
 
 
 mqttclient.on('connect', function() { // When connected
+	client.subscribe('casa/luz/porton');
+});
+
+client.on('message', (topic, message) => {  
+  if(topic === 'casa/luz/porton') {
+    lightStatus = message.toString();
+  }
 });
 
 function validarUsuario (u,p){    
@@ -134,6 +144,12 @@ app.post(/^(.+)$/, function(req, res){
     switch(req.params[0]) {
         case '/location':
             //res.send(JSON.stringify(aceleracion));
+            if(lighton.get("status")){
+            	if(lightStatus == 'apagado'){
+					mqttclient.publish('casa/luz/porton', "1", function() {
+                		});
+        	    	}
+        		}
             console.log(req.body.json);
             location = JSON.parse(req.body.json);
             current.push("location", location);
@@ -150,7 +166,8 @@ app.post(/^(.+)$/, function(req, res){
             } else {
                 buzzer = "0";
             }
-            if(buzzer != "0"){             
+            if(buzzer != "0"){
+            	lighton.push("status", true);          
                	mqttclient.publish('casa/buzzer/distancia', buzzer, function() {
                 	});
             }
