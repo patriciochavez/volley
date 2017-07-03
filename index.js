@@ -54,7 +54,7 @@ mqttclient.on('connect', function() { // When connected
 	client.subscribe('casa/luz/porton');
 });
 
-client.on('message', (topic, message) => {  
+mqttclient.on('message', (topic, message) => {  
   if(topic === 'casa/luz/porton') {
     lightStatus = message.toString();
   }
@@ -135,7 +135,7 @@ app.get(/^(.+)$/, function(req, res){
             location = current.get("location");
             res.send(JSON.stringify(location));
             break;         
-    default: 
+    default:
         res.sendFile( __dirname + req.params[0]); 
     }
  });
