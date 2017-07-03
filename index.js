@@ -51,7 +51,7 @@ var token;
 
 
 mqttclient.on('connect', function() { // When connected
-	client.subscribe('casa/luz/porton');
+	mqttclient.subscribe('casa/luz/porton');
 });
 
 mqttclient.on('message', (topic, message) => {  
